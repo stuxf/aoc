@@ -1,28 +1,18 @@
-lst_one = []
-lst_two = []
-
-for _ in range(1000):
-    in_one, in_two = map(int, input().split())
-    lst_one.append(in_one)
-    lst_two.append(in_two)
-
-lst_one.sort()
-lst_two.sort()
-
-counter = 0
-
-for idx, item in enumerate(lst_one):
-    counter += abs(item - lst_two[idx])
-
-print(counter)
-
 from collections import Counter
 
-similarity = 0
+dat = open("input").read().splitlines()
 
-items_counter = Counter(lst_two)
+left, right = [], []
 
-for idx, item in enumerate(lst_one):
-    similarity += item * items_counter[item]
+for line in dat:
+    l_id, r_id = map(int, line.split())
+    left.append(l_id)
+    right.append(r_id)
 
-print(similarity)
+left.sort(), right.sort()
+
+print(sum(abs(l_id - r_id) for l_id, r_id in zip(left, right)))
+
+id_ctr = Counter(right)
+
+print(sum(l_id * id_ctr[l_id] for l_id in left))
