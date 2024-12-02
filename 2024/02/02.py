@@ -1,73 +1,26 @@
-from collections import Counter
-
-dat = open("input").read().splitlines()
-
-reports = []
-for line in dat:
-    reports.append([*map(int, line.split())])
+data = open("input").read().splitlines()
+reports = [[*map(int, line.split())] for line in data]
 
 
-def is_safe(report):
-    increasing = True
-    if report[0] > report[1]:
-        increasing = False
+def safe(lvls):
+    if len(lvls) < 2:
+        return True
+    diffs = [b - a for a, b in zip(lvls, lvls[1:])]
+    dec = 1 if diffs[0] > 0 else -1
+    return all(0 < abs(d) <= 3 and d * dec > 0 for d in diffs)
 
-    damp = 0
 
-    for idx, num in enumerate(report[1:]):
-        val = num - report[idx]
-        if abs(val) > 3:
-            return False
-        if abs(val) == 0:
-            return False
-        if val < 0 and increasing:
-            return False
-        elif val > 0 and not increasing:
-            return False
+def safe_damp(lvls):
+    if len(lvls) < 2:
+        return True
+    dec = lvls[0] < lvls[1]
+
+    for idx, num in enumerate(lvls[1:]):
+        d = num - lvls[idx]
+        if abs(d) > 3 or abs(d) == 0 or (d < 0 and dec) or (d > 0 and not dec):
+            return any(safe(lvls[:i] + lvls[i + 1 :]) for i in (idx - 1, idx, idx + 1))
     return True
 
 
-def is_safe_two(report):
-    increasing = True
-    if report[0] > report[1]:
-        increasing = False
-
-    damp = 0
-
-    for idx, num in enumerate(report[1:]):
-        val = num - report[idx]
-        if abs(val) > 3:
-            return (
-                is_safe(report[:idx] + report[idx + 1 :])
-                or is_safe(report[: idx - 1] + report[idx:])
-                or is_safe(report[: idx + 1] + report[idx + 2 :])
-            )
-        if abs(val) == 0:
-            return (
-                is_safe(report[:idx] + report[idx + 1 :])
-                or is_safe(report[: idx - 1] + report[idx:])
-                or is_safe(report[: idx + 1] + report[idx + 2 :])
-            )
-        if val < 0 and increasing:
-            return (
-                is_safe(report[:idx] + report[idx + 1 :])
-                or is_safe(report[: idx - 1] + report[idx:])
-                or is_safe(report[: idx + 1] + report[idx + 2 :])
-            )
-        elif val > 0 and not increasing:
-            return (
-                is_safe(report[:idx] + report[idx + 1 :])
-                or is_safe(report[: idx - 1] + report[idx:])
-                or is_safe(report[: idx + 1] + report[idx + 2 :])
-            )
-    return True
-
-
-safe = 0
-safe_two = 0
-
-for report in reports:
-    if is_safe(report):
-        safe += 1
-    if is_safe_two(report):
-        safe_two += 1
+print(sum(map(safe, reports)))
+print(sum(map(safe_damp, reports)))
