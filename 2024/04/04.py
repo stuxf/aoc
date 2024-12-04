@@ -12,7 +12,7 @@ for x, row in enumerate(data):
     for y, col in enumerate(row):
         if 0 < x < len(data) - 1 and 0 < y < len(row) - 1:
             corners = [data[x + dx][y + dy] for dx, dy in diag]
-            if col == "A" and corners.count("M") == 2 and corners.count("A") == 2:
+            if col == "A" and corners.count("M") == 2 and corners.count("S") == 2 and corners[0] != corners[3]:
                 revised_search_cnt += 1
         if col != TARGET[0]:
             continue
