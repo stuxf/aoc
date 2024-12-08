@@ -32,10 +32,10 @@ def all_valid_two(arr_nums, res):
 
 for line in data:
     a = int(line.split(":")[0])
-    b = [*map(int, line.split(":")[1].strip().split())]
-    if a in all_valid(b[::-1], a):
+    b = [*map(int, line.split(":")[1].strip().split())][::-1]
+    if a in all_valid(b, a):
         num_valid += a
-    elif a in all_valid_two(b[::-1], a):
+    elif a in all_valid_two(b, a):
         num_valid_tolerances += a
 
 print(num_valid, num_valid_tolerances)
