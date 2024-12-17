@@ -7,11 +7,7 @@ registers = [int(register.split(": ")[1]) for register in registers.splitlines()
 
 instructions = list(map(int, program.split(": ")[1].split(",")))
 
-registers = {
-    "A": registers[0],
-    "B": registers[1],
-    "C": registers[2]
-}
+registers = {"A": registers[0], "B": registers[1], "C": registers[2]}
 
 
 def combo(op):
@@ -29,6 +25,7 @@ def combo(op):
 
     return val
 
+
 def vm(registers, instructions):
     out = []
     instruction_pointer = 0
@@ -40,7 +37,7 @@ def vm(registers, instructions):
 
         match instruction:
             case 0:
-                registers["A"] = registers["A"]//2**combo(operand)
+                registers["A"] = registers["A"] // 2 ** combo(operand)
             case 1:
                 registers["B"] ^= operand
             case 2:
@@ -56,15 +53,16 @@ def vm(registers, instructions):
             case 5:
                 out.append(combo(operand) % 8)
             case 6:
-                registers["B"] = registers["A"]//2**combo(operand)
+                registers["B"] = registers["A"] // 2 ** combo(operand)
             case 7:
-                registers["C"] = registers["A"]//2**combo(operand)
+                registers["C"] = registers["A"] // 2 ** combo(operand)
             case _:
                 break
 
         instruction_pointer += 2
 
     return out
+
 
 print(",".join(str(item) for item in vm(registers, instructions)))
 
@@ -85,21 +83,8 @@ Program: 2,4,1,1,7,5,0,3,1,4,4,0,5,5,3,0
 # out(B % 8)
 # loop while A is nonzero
 
-print(instructions)
-
-registers["A"] = 0b101_110_001_100_101_111_111_111_111_111_111_111_111_111_111_111
-
-new_registers = {
-    "A": 2**48-1,
-    "B": 0,
-    "C": 0
-}
-new_out = vm(new_registers, instructions)
 group = 16
 counter = 0
-print(registers, new_out)
-
-print("Init!")
 
 counter = 0
 while True:
@@ -122,14 +107,10 @@ while True:
     registers["A"] |= 5 << (48 - 3 * 15)
     registers["A"] |= 2 << (48 - 3 * 16)
 
-
-
     registers["B"] = 0
     registers["C"] = 0
-    print(bin(registers["A"]))
+    print(registers["A"])
     new_out = vm(registers, instructions)
-    print(counter, len(new_out))
-    print(new_out)
     if new_out[-group] == instructions[-group]:
         break
     counter += 1
