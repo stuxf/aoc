@@ -1,68 +1,48 @@
 from collections import defaultdict
 from itertools import combinations
 
-data = open("../inputs/08.txt").read().splitlines()
+data = [line.strip() for line in open("../inputs/08.txt")]
+H, W = len(data), len(data[0])
 
 antennas = defaultdict(list)
-for y, line in enumerate(data):
-    for x, item in enumerate(line):
-        if item != ".":
-            antennas[item].append((y, x))
+for y, row in enumerate(data):
+    for x, char in enumerate(row):
+        if char != ".":
+            antennas[char].append((y, x))
 
-valid_antinodes = 0
+def count_all_antinodes(antennas):
+    basic, extended = set(), set()
+    
+    for positions in antennas.values():
+        for (y1, x1), (y2, x2) in combinations(positions, 2):
+            dy, dx = y2 - y1, x2 - x1
+            
+            if 0 <= y1 - dy < H and 0 <= x1 - dx < W:
+                basic.add((y1 - dy, x1 - dx))
+                extended.add((y1 - dy, x1 - dx))
+            
+            if 0 <= y2 + dy < H and 0 <= x2 + dx < W:
+                basic.add((y2 + dy, x2 + dx))
+                extended.add((y2 + dy, x2 + dx))
+            
+            mult = 2
+            while True:
+                new_y, new_x = y1 - mult * dy, x1 - mult * dx
+                if not (0 <= new_y < H and 0 <= new_x < W):
+                    break
+                extended.add((new_y, new_x))
+                mult += 1
+            
+            mult = 2
+            while True:
+                new_y, new_x = y2 + mult * dy, x2 + mult * dx
+                if not (0 <= new_y < H and 0 <= new_x < W):
+                    break
+                extended.add((new_y, new_x))
+                mult += 1
+    
+    return len(basic), len(extended)
 
-
-def find_antinodes(list_ant):
-    antinodes = set()
-    for item in set(combinations(list_ant, 2)):
-        a, b = item[0]
-        c, d = item[1]
-        dy, dx = c - a, d - b
-        antinodes.add((a - dy, b - dx))
-        antinodes.add((c + dy, d + dx))
-
-    return antinodes
-
-
-def find_antinodes_two(list_ant):
-    antinodes = set()
-    for item in set(combinations(list_ant, 2)):
-        a, b = item[0]
-        c, d = item[1]
-        dy, dx = c - a, d - b
-        cntr = 0
-        while True:
-            if not valid_antinode((a - cntr * dy, b - cntr * dx)):
-                break
-            antinodes.add((a - cntr * dy, b - cntr * dx))
-            cntr += 1
-        cntr = 0
-        while True:
-            if not valid_antinode((a + cntr * dy, b + cntr * dx)):
-                break
-            antinodes.add((c + cntr * dy, d + cntr * dx))
-            cntr += 1
-
-    return antinodes
-
-
-def valid_antinode(antinode):
-    return 0 <= antinode[0] < len(data) and 0 <= antinode[1] < len(data[0])
-
-
-antinodes = set()
-antinodes_two = set()
-
-valid_antinodes_two = 0
-
-
-for antenna in antennas:
-    antinodes = antinodes.union(find_antinodes(antennas[antenna]))
-    antinodes_two = antinodes_two.union(find_antinodes_two(antennas[antenna]))
-for antinode in antinodes:
-    valid_antinodes += valid_antinode(antinode)
-for antinode in antinodes_two:
-    valid_antinodes_two += valid_antinode(antinode)
-
-print(valid_antinodes)
-print(valid_antinodes_two)
+part1, part2 = count_all_antinodes(antennas)
+print(part1)
+print(part2)
