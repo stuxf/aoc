@@ -1,3 +1,9 @@
 # 2024
 
-First year doing AOC. Let's see how it goes and if I can actually keep up ^_^
+First year doing AOC. Languages are split into multiple folders. 
+
+- [Python](./Python/)
+- [C++](./C++/)
+- [Deno (TypeScript)](./Deno/)
+- [Rust](./Rust/)
+- [Go](./Go/)
