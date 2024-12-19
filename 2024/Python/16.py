@@ -1,7 +1,7 @@
 import heapq
 from collections import defaultdict
 
-data = open("input").read().splitlines()
+data = open("../inputs/16.txt").read().splitlines()
 
 dydx = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 H = len(data)

@@ -1,7 +1,7 @@
 from collections import Counter
 import math
 
-data = open("input").read().splitlines()
+data = open("../inputs/14.txt").read().splitlines()
 
 W = 101
 H = 103

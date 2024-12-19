@@ -21,7 +21,7 @@ const ll LLINF = 1e18;
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 
 void solve() {
-  freopen("input", "r", stdin);
+  freopen("../inputs/01.txt", "r", stdin);
 
   vi left, right;
   int x, y;

@@ -1,4 +1,4 @@
-const data = (await Deno.readTextFile("input")).trim().split("\n");
+const data = (await Deno.readTextFile("../inputs/01.txt")).trim().split("\n");
 
 const left: number[] = [];
 const right: number[] = [];

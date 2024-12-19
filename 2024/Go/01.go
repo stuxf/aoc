@@ -15,7 +15,7 @@ func abs(x int) int {
 }
 
 func main() {
-	f, _ := os.Open("input")
+	f, _ := os.Open("../inputs/01.txt")
 	scanner := bufio.NewScanner(f)
 	defer f.Close()
 

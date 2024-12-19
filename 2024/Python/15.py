@@ -1,6 +1,4 @@
-from collections import deque
-
-data = open("input").read().split("\n\n")
+data = open("../inputs/15.txt").read().split("\n\n")
 
 grid, moves = data
 

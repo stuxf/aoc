@@ -1,7 +1,7 @@
 from collections import defaultdict
 from itertools import combinations
 
-data = open("input").read().splitlines()
+data = open("../inputs/08.txt").read().splitlines()
 
 antennas = defaultdict(list)
 for y, line in enumerate(data):

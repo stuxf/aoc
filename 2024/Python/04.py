@@ -1,4 +1,4 @@
-data = open("input").read().splitlines()
+data = open("../inputs/04.txt").read().splitlines()
 
 dxy = [(x, y) for x in range(-1, 2) for y in range(-1, 2) if x or y]
 diag = [(-1, -1), (-1, 1), (1, -1), (1, 1)]

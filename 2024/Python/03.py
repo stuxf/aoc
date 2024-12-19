@@ -1,5 +1,5 @@
 import re
-data = "".join(open("input").read().splitlines())
+data = "".join(open("../inputs/03.txt").read().splitlines())
 p = re.compile(r'mul\(\d+,[0-9]+\)')
 
 sum_one = 0

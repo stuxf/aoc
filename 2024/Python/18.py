@@ -1,6 +1,6 @@
 from collections import deque
 
-data = open("input").read().splitlines()
+data = open("../inputs/18.txt").read().splitlines()
 
 N = 70
 

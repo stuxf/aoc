@@ -1,10 +1,10 @@
 from collections import Counter
 
-dat = open("input").read().splitlines()
+data = open("../inputs/01.txt").read().splitlines()
 
 left, right = [], []
 
-for line in dat:
+for line in data:
     l_id, r_id = map(int, line.split())
     left.append(l_id)
     right.append(r_id)

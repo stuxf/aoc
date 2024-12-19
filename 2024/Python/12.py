@@ -1,6 +1,6 @@
 from collections import deque
 
-data = open("test_input").read().splitlines()
+data = open("../inputs/12.txt").read().splitlines()
 
 H = len(data)
 W = len(data[0])

@@ -1,6 +1,6 @@
 import z3
 
-data = open("input").read().splitlines()
+data = open("../inputs/13.txt").read().splitlines()
 
 claw_machines = []
 newest_token = []
