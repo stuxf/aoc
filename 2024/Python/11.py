@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-data = [*map(int, open("input").read().splitlines()[0].split())]
+data = [*map(int, open("../inputs/11.txt").read().splitlines()[0].split())]
 
 stones = defaultdict(int)
 

@@ -1,7 +1,7 @@
 import heapq
 from collections import defaultdict
 
-registers, program = open("input").read().split("\n\n")
+registers, program = open("../inputs/17.txt").read().split("\n\n")
 
 registers = [int(register.split(": ")[1]) for register in registers.splitlines()]
 

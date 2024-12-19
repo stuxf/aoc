@@ -2,7 +2,7 @@ from collections import defaultdict
 import heapq
 
 
-data = open("input").read().splitlines()[0]
+data = open("../inputs/09.txt").read().splitlines()[0]
 
 new_arr = []
 

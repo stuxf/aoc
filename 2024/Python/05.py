@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-data = open("input").read().splitlines()
+data = open("../inputs/05.txt").read().splitlines()
 
 
 def isOrdered(update):

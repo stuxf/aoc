@@ -1,4 +1,4 @@
-data = open("input").read().splitlines()
+data = open("../inputs/07.txt").read().splitlines()
 
 num_valid = 0
 num_valid_tolerances = 0

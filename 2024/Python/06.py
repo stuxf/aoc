@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-data = [*map(list, open("input").read().splitlines())]
+data = [*map(list, open("../inputs/06.txt").read().splitlines())]
 
 for y, row in enumerate(data):
     for x, item in enumerate(row):

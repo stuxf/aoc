@@ -1,4 +1,4 @@
-data = open("input").read().splitlines()
+data = open("../inputs/10.txt").read().splitlines()
 
 H = len(data)
 W = len(data[0])

@@ -1,4 +1,4 @@
-data = open("input").read().splitlines()
+data = open("../inputs/02.txt").read().splitlines()
 reports = [[*map(int, line.split())] for line in data]
 
 
