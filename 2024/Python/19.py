@@ -1,10 +1,10 @@
 from functools import cache
 
-data = open("../inputs/19.txt").read().split("\n\n")
+patterns, towels= open("../inputs/19.txt").read().split("\n\n")
 
-patterns = data[0].split(", ")
+patterns = patterns.split(", ")
 
-towels = data[1].splitlines()
+towels = towels.splitlines()
 
 
 @cache
