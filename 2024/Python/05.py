@@ -1,58 +1,30 @@
 from collections import defaultdict
+from graphlib import TopologicalSorter
 
-data = open("../inputs/05.txt").read().splitlines()
+data = open("../inputs/05.txt").read().strip().split("\n\n")
+graph = defaultdict(set)
 
+for line in data[0].splitlines():
+    first, next = map(int, line.split("|"))
+    graph[next].add(first)
 
-def isOrdered(update):
-    for idx, item in enumerate(update):
-        if len(order_dict[item]) != 0:
-            for next in order_dict[item]:
-                try:
-                    if update.index(next) > idx:
-                        return False
-                except ValueError:
-                    pass
-    return True
+updates = [list(map(int, line.split(","))) for line in data[1].splitlines()]
 
 
-def reordered(update):
-    if isOrdered(update):
-        return update
-    new_update = []
-    for idx, item in enumerate(update):
-        if len(order_dict[item]) != 0:
-            for next in order_dict[item]:
-                if next not in new_update and next in update:
-                    new_update.append(next)
-        if item not in new_update:
-            new_update.append(item)
-    return reordered(new_update)
+def reorder(sequence):
+    subgraph = {n: graph[n] & set(sequence) for n in sequence}
+    return list(TopologicalSorter(subgraph).static_order())
 
-
-ordered_tuples = []
-
-order_dict = defaultdict(list)
-
-updates = []
-for line in data:
-    if len(line) == 5:
-        first, next = map(int, line.split("|"))
-        ordered_tuples.append((first, next))
-        order_dict[next].append(first)
-    elif line != "":
-        updates.append([*map(int, line.split(","))])
 
 middle_sum = 0
 middle_sum_corrected = 0
+
 for update in updates:
-    if isOrdered(update):
+    new_order = reorder(update)
+    if new_order == update:
         middle_sum += update[len(update) // 2]
     else:
-        new_update = reordered(update)
-        assert isOrdered(new_update)
-        middle_sum_corrected += new_update[len(new_update) // 2]
-
+        middle_sum_corrected += new_order[len(new_order) // 2]
 
 print(middle_sum)
-
 print(middle_sum_corrected)
