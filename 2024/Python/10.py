@@ -54,4 +54,5 @@ for init in start:
     scores += dfs(init)
     ratings += dfs(init, True)
 
-print(scores, ratings)
+print(scores)
+print(ratings)

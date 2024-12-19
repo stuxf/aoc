@@ -64,4 +64,5 @@ for antinode in antinodes:
 for antinode in antinodes_two:
     valid_antinodes_two += valid_antinode(antinode)
 
-print(valid_antinodes, valid_antinodes_two)
+print(valid_antinodes)
+print(valid_antinodes_two)

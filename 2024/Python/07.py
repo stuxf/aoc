@@ -38,4 +38,5 @@ for line in data:
     elif a in all_valid_two(b, a):
         num_valid_tolerances += a
 
-print(num_valid, num_valid_tolerances)
+print(num_valid)
+print(num_valid_tolerances)
