@@ -1,28 +1,19 @@
 import re
+
 data = "".join(open("../inputs/03.txt").read().splitlines())
-p = re.compile(r'mul\(\d+,[0-9]+\)')
 
-sum_one = 0
-for match in p.findall(data):
-    a, b = map(int,match[4:-1].split(","))
-    sum_one += a*b
-
+sum_one = sum(int(a) * int(b) for a, b in re.findall(r"mul\((\d+),(\d+)\)", data))
 print(sum_one)
 
-p2 = re.compile(r'mul\(\d+,\d+\)|do\(\)|don\'t\(\)')
-
 do = True
-
 sum = 0
 
-for match in p2.findall(data):
-    if match == "do()":
+for match in re.finditer(r"(?:do\(\)|don\'t\(\))|mul\((\d+),(\d+)\)", data):
+    if match.group(0) == "do()":
         do = True
-    elif match == "don't()":
+    elif match.group(0) == "don't()":
         do = False
     else:
-        if do:
-            a, b = map(int,match[4:-1].split(","))
-            sum += a*b
+        sum += int(match.group(1)) * int(match.group(2)) if do else 0
 
 print(sum)
