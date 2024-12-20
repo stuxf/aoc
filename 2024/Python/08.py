@@ -17,28 +17,20 @@ def count_all_antinodes(antennas):
         for (y1, x1), (y2, x2) in combinations(positions, 2):
             dy, dx = y2 - y1, x2 - x1
             
-            if 0 <= y1 - dy < H and 0 <= x1 - dx < W:
-                basic.add((y1 - dy, x1 - dx))
-                extended.add((y1 - dy, x1 - dx))
-            
-            if 0 <= y2 + dy < H and 0 <= x2 + dx < W:
-                basic.add((y2 + dy, x2 + dx))
-                extended.add((y2 + dy, x2 + dx))
-            
-            mult = 2
-            while True:
-                new_y, new_x = y1 - mult * dy, x1 - mult * dx
-                if not (0 <= new_y < H and 0 <= new_x < W):
-                    break
-                extended.add((new_y, new_x))
+            mult = 0
+            while 0 <= y1 - mult * dy < H and 0 <= x1 - mult * dx < W:
+                new_pos = (y1 - mult * dy, x1 - mult * dx)
+                extended.add(new_pos)
+                if mult == 1:
+                    basic.add(new_pos)
                 mult += 1
             
-            mult = 2
-            while True:
-                new_y, new_x = y2 + mult * dy, x2 + mult * dx
-                if not (0 <= new_y < H and 0 <= new_x < W):
-                    break
-                extended.add((new_y, new_x))
+            mult = 0
+            while 0 <= y2 + mult * dy < H and 0 <= x2 + mult * dx < W:
+                new_pos = (y2 + mult * dy, x2 + mult * dx)
+                extended.add(new_pos)
+                if mult == 1:
+                    basic.add(new_pos)
                 mult += 1
     
     return len(basic), len(extended)
