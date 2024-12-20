@@ -1,5 +1,3 @@
-import z3
-
 data = open("../inputs/13.txt").read().splitlines()
 
 claw_machines = []
@@ -17,23 +15,31 @@ claw_machines.append(newest_token)
 tokens_one = 0
 tokens_two = 0
 
+def solve_system(x1, y1, x2, y2, px, py):
+    det = x1 * y2 - y1 * x2
+    if det == 0:
+        return None
+    a = (px * y2 - py * x2) / det
+    b = (x1 * py - y1 * px) / det
+    if a.is_integer() and b.is_integer():
+        return int(a), int(b)
+    return None
+
 for claw_machine in claw_machines:
     x1, y1 = claw_machine[0]
     x2, y2 = claw_machine[1]
     px, py = claw_machine[2]
-    sol_one = z3.Solver()
-    sol_offset = z3.Solver()
-    a, b = z3.Ints("a b")
-    sol_one.add(a * x1 + b * x2 == px)
-    sol_one.add(a * y1 + b * y2 == py)
-    sol_offset.add(a * x1 + b * x2 == px + 1e13)
-    sol_offset.add(a * y1 + b * y2 == py + 1e13)
-    if sol_one.check() == z3.sat:
-        m = sol_one.model()
-        tokens_one += m[a].as_long() * 3 + m[b].as_long()
-    if sol_offset.check() == z3.sat:
-        m = sol_offset.model()
-        tokens_two += m[a].as_long() * 3 + m[b].as_long()
+    
+    solution = solve_system(x1, y1, x2, y2, px, py)
+    if solution:
+        a, b = solution
+        tokens_one += a * 3 + b
+
+    offset = int(1e13)
+    solution = solve_system(x1, y1, x2, y2, px + offset, py + offset)
+    if solution:
+        a, b = solution
+        tokens_two += a * 3 + b
 
 print(tokens_one)
 print(tokens_two)
