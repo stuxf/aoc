@@ -1,4 +1,7 @@
-data = open("../inputs/10.txt").read().splitlines()
+data = [
+    [int(c) if c != "." else -1 for c in line.strip()]
+    for line in open("../inputs/10.txt")
+]
 
 H = len(data)
 W = len(data[0])
@@ -6,24 +9,11 @@ W = len(data[0])
 dydx = [(0, 1), (1, 0), (-1, 0), (0, -1)]
 
 
-def valid_coord(pos):
-    return 0 <= pos[0] < H and 0 <= pos[1] < W
+def valid_coord(y, x):
+    return 0 <= y < H and 0 <= x < W
 
 
-def new_coords(intial_pos):
-    y, x = intial_pos
-    new_coords = []
-    for dy, dx in dydx:
-        if valid_coord((y + dy, x + dx)):
-            new_coords.append((y + dy, x + dx))
-    return new_coords
-
-
-start = []
-for y, line in enumerate(data):
-    for x, num in enumerate(line):
-        if num == "0":
-            start.append((y, x))
+starts = [(y, x) for y in range(H) for x in range(W) if data[y][x] == 0]
 
 
 def dfs(initial, part2=False, visited=None):
@@ -37,20 +27,20 @@ def dfs(initial, part2=False, visited=None):
     if val == 9:
         return 1
     sum = 0
-    for coord in new_coords(initial):
-        new_y, new_x = coord
-        if data[new_y][new_x] == ".":
+    for dy, dx in dydx:
+        new_y, new_x = y + dy, x + dx
+        if not valid_coord(new_y, new_x) or data[new_y][new_x] == ".":
             continue
-        new_val = int(data[new_y][new_x])
+        new_val = data[new_y][new_x]
         if new_val == val + 1:
-            sum += dfs(coord, part2, visited)
+            sum += dfs((new_y, new_x), part2, visited)
     return sum
 
 
 scores = 0
 ratings = 0
 
-for init in start:
+for init in starts:
     scores += dfs(init)
     ratings += dfs(init, True)
 
