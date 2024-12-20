@@ -1,4 +1,4 @@
-const data = Deno.readTextFileSync("../inputs/14.txt")
+const data = (await Deno.readTextFile("../inputs/14.txt"))
   .split("\n")
   .filter(line => line.length > 0);
 
