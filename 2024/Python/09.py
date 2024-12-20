@@ -1,65 +1,86 @@
-from collections import defaultdict
-import heapq
+data = open("../inputs/09.txt").read().strip()
+disk = [int(b) for b in data]
 
+def part1(disk):
+    left = 0
+    right = len(disk) - 2 + len(disk) % 2
+    needed = disk[right]
+    block = 0
+    checksum = 0
 
-data = open("../inputs/09.txt").read().splitlines()[0]
+    while left < right:
+        id = left // 2
+        extra = block * disk[left] + (disk[left] * (disk[left] - 1)) // 2
+        checksum += id * extra
+        block += disk[left]
+        
+        available = disk[left + 1]
+        left += 2
+        
+        while available > 0:
+            if needed == 0:
+                if left == right:
+                    break
+                right -= 2
+                needed = disk[right]
+            
+            size = min(needed, available)
+            id = right // 2
+            extra = block * size + (size * (size - 1)) // 2
+            checksum += id * extra
+            block += size
+            available -= size
+            needed -= size
 
-new_arr = []
+    if needed > 0:
+        id = right // 2
+        extra = block * needed + (needed * (needed - 1)) // 2
+        checksum += id * extra
 
-for idx, char in enumerate(data):
-    if idx % 2 == 1:
-        hi = "."
-    else:
-        hi = idx // 2
-    for _ in range(int(char)):
-        new_arr.append(hi)
+    return checksum
 
-amount_dots = new_arr.count(".")
-amount_nums = len(new_arr) - amount_dots
+def part2(disk):
+    block = 0
+    checksum = 0
+    free = [[] for _ in range(10)]
 
-copied_arr = new_arr[:amount_nums]
+    for idx, size in enumerate(disk):
+        if idx % 2 == 1 and size > 0:
+            free[size].append(block)
+        block += size
 
-num_side = [x for x in new_arr[amount_nums::] if x != "."]
+    for blocks in free:
+        blocks.append(block)
+        blocks.reverse()
 
-for idx, item in enumerate(copied_arr):
-    if len(num_side) == 0:
-        break
-    if item == ".":
-        copied_arr[idx] = num_side.pop()
+    for idx in range(len(disk) - 1, -1, -1):
+        size = disk[idx]
+        block -= size
+        
+        if idx % 2 == 1:
+            continue
+        
+        next_block = block
+        next_size = None
+        
+        for i in range(size, len(free)):
+            if free[i] and free[i][-1] < next_block:
+                next_block = free[i][-1]
+                next_size = i
+        
+        id = idx // 2
+        extra = next_block * size + (size * (size - 1)) // 2
+        checksum += id * extra
+        
+        if next_size is not None:
+            free[next_size].pop()
+            remaining = next_size - size
+            if remaining > 0:
+                new_block = next_block + size
+                free[remaining].append(new_block)
+                free[remaining].sort(reverse=True)
 
-checksum = 0
-for idx, item in enumerate(copied_arr):
-    checksum += idx * item
+    return checksum
 
-print(checksum)
-
-checksum = 0
-
-files = {}
-freespace = defaultdict(list)
-start = 0
-for idx, item in enumerate(map(int, data)):
-    if idx % 2 == 1:
-        heapq.heappush(freespace[item], start)
-    else:
-        files[idx // 2] = start, item
-    start += item
-
-for id in range(max(files), 0, -1):
-    i, n = files[id]
-    freespaces = sorted([[freespace[free_l][0],free_l] for free_l in freespace if free_l>=n])
-    if freespaces:
-        start, l = freespaces[0]
-        if i > start:
-            files[id] = start, n
-            remaining_l = l - n
-            heapq.heappop(freespace[l])
-            if not freespace[l]:
-                del freespaces[l]
-            if remaining_l:
-                heapq.heappush(freespace[remaining_l], start + n)
-
-for num, (start, length) in files.items():
-    checksum += num*(start*length+(length*(length-1))//2)
-
-print(checksum)
+print(part1(disk))
+print(part2(disk))
