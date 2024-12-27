@@ -5,11 +5,18 @@ First year doing AOC. Languages are split into multiple folders.
 Something I wanted to restrict myself to this year was to not use libraries, and
 keep everything within the standard library of each langauge.
 
+I did all 25 days with Python, and then the first 20 days in Deno as well, as
+Deno was running an event with free stickers \:D. I was originally intentending
+to do other languages as well, but turns out writing more code does take more time.
+
 - [Python](./Python/)
-- [C++](./C++/)
+
+<!-- - [C++](./C++/) -->
+
 - [Deno (TypeScript)](./Deno/)
-- [Rust](./Rust/)
-- [Go](./Go/)
+
+<!-- - [Rust](./Rust/) -->
+<!-- - [Go](./Go/) -->
 
 ## Problem Notes (⚠️⚠️⚠️ SPOILERS AHEAD ⚠️⚠️⚠️)
 
@@ -170,3 +177,54 @@ a bit of a fun challenge. I took a while and bruted part one. Part two is a bit
 trickier, and after a bit of thought, I ended up checking coordinate pairs of
 manhattan distances after doing a bfs from the end to see which cheats would
 save time, only comparing pairs. My solution thus ends up being relatively fast.
+
+### Day 21
+
+This one ended up being _really_ tricky. Seems like it might be the hardest
+puzzle of the entire year. I think the key insight for this day was that the
+keypads reset posistion to "A" every time, allowing you to iteratively bfs the
+most optimal path for each layer. Using DP, this approach ends up being pretty
+fast. Apparently there was an even better linear way to solve this problem, by
+converting it into a matrix, and creating a lookup table, and using a series of
+matrix multiplications. Alternatively, you could just make the lookup table, and
+write a function that does a series of string replacements. I saw that some
+people on reddit even generated their lookup tables manually, which is kind of
+funny. Either way, generating the lookup table is essentially what DP is doing,
+just with the added overhead of setting it up.
+
+### Day 22
+
+Funny problem to go through and solve. I was sick during this period of time,
+starting day 21 actually, all the way until the end of AOC. But because I was
+doing this problem late, I spent a bit more time reading through the storytext.
+Very funny story involving banana monkey economics. Part 1 wasn't too hard, it's
+about predicting RNG numbers, I originally was looking for a smart math way to
+do it, but ended up just bruting it. With P2, turns out the brute was necessary,
+and you just keep a dict that keeps track of all sequences throughout time.
+
+### Day 23
+
+There's no easy algorithm to solve this day's problem. Part one is to find all
+cliques of size 3 in a graph, and part two is to find the maximal clique in the
+graph. Turns out this is an NP problem, and there's an algorithm called
+Bron-Kerbosch. I initially coded it this way, but while perusing the python
+discord, I found another implementation, which I stole almost in its entirity
+and put it into this repo. From @boxy. Not sure why, but it ran at about 10x my
+Bron-Kerbosch implementation. It's really clean and really fast, probably the
+first time I've been really blown away by someone's solution.
+
+### Day 24
+
+Part one wasn't too bad, part two was really hard lol. I know a lot of people
+ended up solving part two by hand for this day. I was a bit confused how to do
+so programatically, so I ended up taking u/LxsterGames solution from reddit.
+
+So Part 2 is essentially simulating a ripple carry adder, and we can identify
+the wrong logic gates by knowing a bit about how they work. We can use that to
+identify some obviously wrong gates, and then identify the rest by comparing
+the output of our circuit to what we expect
+
+### Day 25
+
+Fairly easy day, just check to see if there's overlap. Glad to be done. Happy
+holidays!
